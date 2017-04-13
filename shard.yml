@@ -1,0 +1,19 @@
+name: traikoa
+version: 0.1.0
+
+authors:
+  - z64 <zachnowicki@gmail.com>
+
+targets:
+  traikoa:
+    main: src/traikoa.cr
+
+dependencies:
+  zeromq:
+    github: benoist/zeromq-crystal
+  rethinkdb:
+    github: CubosTecnologia/rethinkdb.cr
+
+crystal: 0.20.5
+
+license: MIT
