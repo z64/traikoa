@@ -1,8 +1,7 @@
 require "./eddn/*"
 
 module Traikoa
-  # EDDN
-  # https://github.com/jamesremuscat/EDDN
+  # EDDN ([GitHub](https://github.com/jamesremuscat/EDDN))
   module EDDN
     # EDDN version
     VERSION = "0.6.2"
