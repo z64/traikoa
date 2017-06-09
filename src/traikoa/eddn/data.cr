@@ -19,11 +19,11 @@ module Traikoa
     # Mapping of schema URL to payload type that we can use for checking
     # to perform special handling on each.
     PAYLOAD = {
-      "http://schemas.elite-markets.net/eddn/blackmarket/1" => Payload::Blackmarket,
-      "http://schemas.elite-markets.net/eddn/commodity/3"   => Payload::Commodity,
-      "http://schemas.elite-markets.net/eddn/journal/1"     => Payload::Journal,
-      "http://schemas.elite-markets.net/eddn/outfitting/2"  => Payload::Outfitting,
-      "http://schemas.elite-markets.net/eddn/shipyard/2"    => Payload::Shipyard,
+      "http://schemas.elite-markets.net/eddn/blackmarket/1" => Blackmarket,
+      "http://schemas.elite-markets.net/eddn/commodity/3"   => Commodity,
+      "http://schemas.elite-markets.net/eddn/journal/1"     => Journal,
+      "http://schemas.elite-markets.net/eddn/outfitting/2"  => Outfitting,
+      "http://schemas.elite-markets.net/eddn/shipyard/2"    => Shipyard,
     }
 
     # Packet header
