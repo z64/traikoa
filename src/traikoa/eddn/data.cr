@@ -66,14 +66,15 @@ module Traikoa
             star_system:   {key: "StarSystem", type: String},
             star_position: {key: "StarPos", type: Array(Float64)},
             {% if kind == "FSDJump" %}
-              security:                    {key: "SystemSecurity", type: String, converter: SecurityLocalizer},
-              allegiance:                  {key: "SystemAllegiance", type: String},
-              economy:                     {key: "SystemEconomy", type: String, converter: EconomyLocalizer},
-              powerplay_state:             {key: "PowerplayState", type: String?},
-              powers:                      {key: "Powers", type: Array(String)?},
-              controlling_faction_state:   {key: "FactionState", type: String?, converter: FactionstateLocalizer},
-              controlling_faction:         {key: "SystemFaction", type: String?},
-              faction_presences:           {key: "Factions", type: Array(FactionPresence)?},
+              security:                       {key: "SystemSecurity", type: String, converter: SecurityLocalizer},
+              allegiance:                     {key: "SystemAllegiance", type: String},
+              economy:                        {key: "SystemEconomy", type: String, converter: EconomyLocalizer},
+              powerplay_state:                {key: "PowerplayState", type: String?},
+              powers:                         {key: "Powers", type: Array(String)?},
+              controlling_faction_state:      {key: "FactionState", type: String?, converter: FactionstateLocalizer},
+              controlling_faction:            {key: "SystemFaction", type: String?},
+              controlling_faction_government: {key: "SystemGovernment", type: String?, converter: GovernmentLocalizer},
+              faction_presences:              {key: "Factions", type: Array(FactionPresence)?},
             {% end %}
           })
         end
