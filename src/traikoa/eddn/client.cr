@@ -17,22 +17,28 @@ module Traikoa
 
       # Establishes a TCP connection and starts
       # listening for dispatches. Dispatches are sent across
-      # a provided channel.
-      def run(channel : Channel(String))
+      # a returned channel.
+      def run!
         LOGGER.info "connecting to #{RELAY_URL}"
         @relay.connect(RELAY_URL)
 
-        LOGGER.info "entering main loop"
-        loop do
-          data = @relay.receive_string
-          if data
-            deflated = Zlib::Inflate.new(
-              IO::Memory.new(data)
-            ).gets_to_end
+        channel = Channel(String).new
 
-            channel.send deflated
+        LOGGER.info "entering main loop"
+        spawn do
+          loop do
+            data = @relay.receive_string
+            if data
+              deflated = Zlib::Reader.new(
+                IO::Memory.new(data)
+              ).gets_to_end
+
+              channel.send deflated
+            end
           end
         end
+
+        channel
       end
     end
   end
