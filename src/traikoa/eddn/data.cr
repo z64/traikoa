@@ -39,10 +39,10 @@ module Traikoa
     # A generic packet caught by the TCP relay
     struct Packet
       # Packet header
-      getter header : Header?
+      getter header : Header
 
       # Schema reference URL
-      getter schema_ref : String?
+      getter schema_ref : String
 
       # Gateway message
       getter message : IO::Memory

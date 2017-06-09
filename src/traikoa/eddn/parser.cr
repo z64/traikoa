@@ -26,7 +26,11 @@ module Traikoa
 
       data.rewind
 
-      Packet.new header, schema_ref, data
+      Packet.new(
+        header.not_nil!,
+        schema_ref.not_nil!,
+        data
+      )
     end
 
     module Journal
