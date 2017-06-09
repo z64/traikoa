@@ -33,6 +33,26 @@ module Traikoa
       )
     end
 
+    struct Packet
+      # Deducts the kind of data object this event is mapped for
+      # based on the schema_ref and parses it
+      def read_event
+        PAYLOAD[schema_ref].read_event(message)
+      end
+    end
+
+    struct Blackmarket
+      def self.read_event(message)
+        raise "Not implemented"
+      end
+    end
+
+    struct Commodity
+      def self.read_event(message)
+        raise "Not implemented"
+      end
+    end
+
     module Journal
       # Pulls out the kind of journal event a message is for
       def self.read_event(message : IO::Memory)
@@ -50,6 +70,18 @@ module Traikoa
         {% for kind in Events %}
           return {{kind.id}}.from_json message if event == {{kind}}
         {% end %}
+      end
+    end
+
+    struct Outfitting
+      def self.read_event(message)
+        raise "Not implemented"
+      end
+    end
+
+    struct Shipyard
+      def self.read_event(message)
+        raise "Not implemented"
       end
     end
   end
