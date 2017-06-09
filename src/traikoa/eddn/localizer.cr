@@ -3,7 +3,7 @@ require "csv"
 module Traikoa
   module EDDN
     # Directory where CSVs to build localizations from are stored.
-    CSV_DIR = "./FDevIDs"
+    CSV_DIR = "src/traikoa/eddn/FDevIDs"
 
     # A basic localization.
     record SimpleLocalization, id : String, name : String
