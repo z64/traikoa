@@ -1,4 +1,5 @@
 require "json"
+require "./localizer"
 
 module Traikoa
   module EDDN
@@ -65,11 +66,28 @@ module Traikoa
             star_system:   {key: "StarSystem", type: String},
             star_position: {key: "StarPos", type: Array(Float64)},
             {% if kind == "FSDJump" %}
-              system_security: {key: "SystemSecurity", type: String}
+              security:                    {key: "SystemSecurity", type: String, converter: SecurityLocalizer},
+              allegiance:                  {key: "SystemAllegiance", type: String},
+              economy:                     {key: "SystemEconomy", type: String, converter: EconomyLocalizer},
+              powerplay_state:             {key: "PowerplayState", type: String?},
+              powers:                      {key: "Powers", type: Array(String)?},
+              controlling_faction_state:   {key: "FactionState", type: String?, converter: FactionstateLocalizer},
+              controlling_faction:         {key: "SystemFaction", type: String?},
+              faction_presences:           {key: "Factions", type: Array(FactionPresence)},
             {% end %}
           })
         end
       {% end %}
+
+      struct FactionPresence
+        JSON.mapping({
+          allegiance: {key: "Allegiance", type: String},
+          influence:  {key: "Influence", type: Float64},
+          state:      {key: "FactionState", type: String},
+          name:       {key: "Name", type: String},
+          government: {key: "Government", type: String},
+        })
+      end
     end
   end
 end
