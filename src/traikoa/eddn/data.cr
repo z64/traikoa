@@ -73,7 +73,7 @@ module Traikoa
               powers:                      {key: "Powers", type: Array(String)?},
               controlling_faction_state:   {key: "FactionState", type: String?, converter: FactionstateLocalizer},
               controlling_faction:         {key: "SystemFaction", type: String?},
-              faction_presences:           {key: "Factions", type: Array(FactionPresence)},
+              faction_presences:           {key: "Factions", type: Array(FactionPresence)?},
             {% end %}
           })
         end
