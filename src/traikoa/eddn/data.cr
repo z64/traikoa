@@ -51,6 +51,29 @@ module Traikoa
       end
     end
 
+    module Commodity
+      struct Market
+        JSON.mapping({
+          system_name:  {key: "systemName", type: String},
+          station_name: {key: "stationName", type: String},
+          commodities:  Array(MarketItem),
+        })
+      end
+
+      struct MarketItem
+        JSON.mapping({
+          demand_bracket: {key: "demandBracket", type: UInt16},
+          name:           String,
+          buy_price:      {key: "buyPrice", type: UInt64},
+          mean_price:     {key: "meanPrice", type: UInt64},
+          stock_bracket:  {key: "stockBracket", type: UInt16},
+          demand:         UInt64,
+          sell_price:     {key: "sellPrice", type: UInt64},
+          stock:          UInt64,
+        })
+      end
+    end
+
     module Journal
       # Kinds of journal events
       Events = {"Docked", "FSDJump", "Scan"}

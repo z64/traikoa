@@ -47,9 +47,9 @@ module Traikoa
       end
     end
 
-    struct Commodity
+    module Commodity
       def self.read_event(message)
-        raise "Not implemented"
+        Market.from_json(message)
       end
     end
 
