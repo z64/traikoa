@@ -66,8 +66,8 @@ module Traikoa
             star_system:   {key: "StarSystem", type: String},
             star_position: {key: "StarPos", type: Array(Float64)},
             {% if kind == "Docked" %}
-              station_faction:            {key: "StationFaction", type: String?},
-              station_faction_government: {key: "StationGovernment", type: String?, converter: GovernmentLocalizer},
+              station_faction:            {key: "StationFaction", type: String},
+              station_faction_government: {key: "StationGovernment", type: String, converter: GovernmentLocalizer},
               station_faction_economy:    {key: "StationEconomy", type: String, converter: EconomyLocalizer},
               distance_from_star:         {key: "DistFromStarLS", type: Float64},
               station_type:               {key: "StationType", type: String},
