@@ -105,7 +105,7 @@ module Traikoa
         JSON.mapping({
           allegiance: {key: "Allegiance", type: String},
           influence:  {key: "Influence", type: Float64},
-          state:      {key: "FactionState", type: String},
+          state:      {key: "FactionState", type: String, converter: FactionstateLocalizer},
           name:       {key: "Name", type: String},
           government: {key: "Government", type: String},
         })
