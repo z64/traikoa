@@ -29,7 +29,7 @@ module Traikoa::EDDN
         @@localizations : Array(Traikoa::EDDN::Localizer::SimpleLocalization)
         @@localizations = CSV.parse(File.read("#{CSV_DIR}/{{name.id}}.csv"))
                             .map do |e|
-                              Traikoa::EDDN::SimpleLocalization.new(e[0], e[1])
+                              Traikoa::EDDN::Localizer::SimpleLocalization.new(e[0], e[1])
                             end
 
         # Localizes a string from `{{name}}.csv`
