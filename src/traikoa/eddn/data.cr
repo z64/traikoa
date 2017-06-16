@@ -66,7 +66,11 @@ module Traikoa
 
     module Journal
       # Kinds of journal events
-      Events = {"Docked", "FSDJump", "Scan"}
+      Events = {
+        Docked,
+        FSDJump,
+        Scan,
+      }
 
       # The following macro generates a set of structs that have different
       # data points depending on the kind of event. This is to get around
