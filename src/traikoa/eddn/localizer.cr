@@ -9,7 +9,15 @@ module Traikoa::EDDN
     record SimpleLocalization, id : String, name : String
 
     # Constructs a simple localizer converter to be used in a JSON.mapping
-    macro simple_localizer(name)
+    # This doesn't compile classes with the "correct" casing,
+    # but I preffered the convenience of keeping this DRY instead.
+    {% for name in ["economy",
+                    "factionstate",
+                    "government",
+                    "rings",
+                    "security",
+                    "superpower",
+                    "terraformingstate"] %}
       # A simple (ID to name) localizer interface for `{{name}}.csv`.
       # Converts a string like # `"$government_Communism;"` into "Communism"
       # ```
@@ -17,7 +25,7 @@ module Traikoa::EDDN
       # ```
       module {{name.id.capitalize}}
         @@localizations : Array(Traikoa::EDDN::Localizer::SimpleLocalization)
-        @@localizations = CSV.parse(File.read("#{CSV_DIR}/{{name}}.csv"))
+        @@localizations = CSV.parse(File.read("#{CSV_DIR}/{{name.id}}.csv"))
                             .map do |e|
                               Traikoa::EDDN::SimpleLocalization.new(e[0], e[1])
                             end
@@ -32,18 +40,6 @@ module Traikoa::EDDN
           localize(parser.read_string)
         end
       end
-    end
-
-    # This doesn't compile classes with the "correct" casing,
-    # but I preffered the convenience of keeping this DRY instead.
-    {% for kind in ["economy",
-                    "factionstate",
-                    "government",
-                    "rings",
-                    "security",
-                    "superpower",
-                    "terraformingstate"] %}
-      simple_localizer {{kind.id}}
     {% end %}
   end
 end
