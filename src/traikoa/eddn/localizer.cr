@@ -1,6 +1,8 @@
 require "csv"
 
 module Traikoa::EDDN
+  # A collection of converters to localize in-game strings to their
+  # human readable equivalents
   module Localizer
     # Directory where CSVs to build localizations from are stored.
     CSV_DIR = "src/traikoa/eddn/FDevIDs"
