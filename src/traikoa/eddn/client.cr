@@ -8,8 +8,6 @@ module Traikoa
     class Client
       @relay = ZMQ::Socket.create(ZMQ::Context.new, ZMQ::SUB)
 
-      # @buffer = IO::Memory.new
-
       def initialize
         @relay.set_socket_option(ZMQ::SUBSCRIBE, "")
         LOGGER.info "initialized client"
