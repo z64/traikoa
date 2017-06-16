@@ -6,16 +6,6 @@ module Traikoa
     # Timestamp date format
     DATE_FORMAT = Time::Format.new("%FT%T.%L%:z")
 
-    # Supported gateway payloads
-    @[Flags]
-    enum Payload
-      Blackmarket
-      Commodity
-      Journal
-      Outfitting
-      Shipyard
-    end
-
     # Mapping of schema URL to payload type that we can use for checking
     # to perform special handling on each.
     PAYLOAD = {
