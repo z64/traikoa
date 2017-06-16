@@ -1,7 +1,7 @@
 require "csv"
 
-module Traikoa
-  module EDDN
+module Traikoa::EDDN
+  module Localizer
     # Directory where CSVs to build localizations from are stored.
     CSV_DIR = "src/traikoa/eddn/FDevIDs"
 
@@ -10,17 +10,24 @@ module Traikoa
 
     # Constructs a simple localizer converter to be used in a JSON.mapping
     macro simple_localizer(name)
-      module {{name.id.capitalize}}Localizer
-        @@localizations : Array(Traikoa::EDDN::SimpleLocalization)
+      # A simple (ID to name) localizer interface for `{{name}}.csv`.
+      # Converts a string like # `"$government_Communism;"` into "Communism"
+      # ```
+      # {{name.id.capitalize}}.localize("$some_game_string;") #=> "Localized String"
+      # ```
+      module {{name.id.capitalize}}
+        @@localizations : Array(Traikoa::EDDN::Localizer::SimpleLocalization)
         @@localizations = CSV.parse(File.read("#{CSV_DIR}/{{name}}.csv"))
                             .map do |e|
                               Traikoa::EDDN::SimpleLocalization.new(e[0], e[1])
                             end
 
+        # Localizes a string from `{{name}}.csv`
         def self.localize(string)
           @@localizations.find { |local| local.id == string }.not_nil!.name
         end
 
+        # Callback for using this localizer in a `JSON.mapping`'s `converter`
         def self.from_json(parser)
           localize(parser.read_string)
         end

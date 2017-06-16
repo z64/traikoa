@@ -84,21 +84,21 @@ module Traikoa
             star_position: {key: "StarPos", type: Array(Float64)},
             {% if kind == "Docked" %}
               station_faction:            {key: "StationFaction", type: String},
-              station_faction_government: {key: "StationGovernment", type: String, converter: GovernmentLocalizer},
-              station_faction_economy:    {key: "StationEconomy", type: String, converter: EconomyLocalizer},
+              station_faction_government: {key: "StationGovernment", type: String, converter: Localizer::Government},
+              station_faction_economy:    {key: "StationEconomy", type: String, converter: Localizer::Economy},
               distance_from_star:         {key: "DistFromStarLS", type: Float64},
               station_type:               {key: "StationType", type: String},
               station_name:               {key: "StationName", type: String}
             {% end %}
             {% if kind == "FSDJump" %}
-              security:                       {key: "SystemSecurity", type: String, converter: SecurityLocalizer},
+              security:                       {key: "SystemSecurity", type: String, converter: Localizer::Security},
               allegiance:                     {key: "SystemAllegiance", type: String},
-              economy:                        {key: "SystemEconomy", type: String, converter: EconomyLocalizer},
+              economy:                        {key: "SystemEconomy", type: String, converter: Localizer::Economy},
               powerplay_state:                {key: "PowerplayState", type: String?},
               powers:                         {key: "Powers", type: Array(String)?},
-              controlling_faction_state:      {key: "FactionState", type: String?, converter: FactionstateLocalizer},
+              controlling_faction_state:      {key: "FactionState", type: String?, converter: Localizer::Factionstate},
               controlling_faction:            {key: "SystemFaction", type: String?},
-              controlling_faction_government: {key: "SystemGovernment", type: String?, converter: GovernmentLocalizer},
+              controlling_faction_government: {key: "SystemGovernment", type: String?, converter: Localizer::Government},
               faction_presences:              {key: "Factions", type: Array(FactionPresence)?},
             {% end %}
           })
@@ -109,7 +109,7 @@ module Traikoa
         JSON.mapping({
           allegiance: {key: "Allegiance", type: String},
           influence:  {key: "Influence", type: Float64},
-          state:      {key: "FactionState", type: String, converter: FactionstateLocalizer},
+          state:      {key: "FactionState", type: String, converter: Localizer::Factionstate},
           name:       {key: "Name", type: String},
           government: {key: "Government", type: String},
         })
