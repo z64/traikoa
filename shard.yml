@@ -11,8 +11,10 @@ targets:
 dependencies:
   zeromq:
     github: benoist/zeromq-crystal
-  rethinkdb:
-    github: CubosTecnologia/rethinkdb.cr
+  pg:
+    github: will/crystal-pg
+  jennifer:
+    github: imdrasil/jennifer.cr
 
 crystal: 0.20.5
 
