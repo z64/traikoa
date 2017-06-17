@@ -19,10 +19,10 @@ module Traikoa
     # Packet header
     struct Header
       JSON.mapping({
-        uploader_id:       {key: %(uploaderID), type: String},
-        software_name:     {key: %(softwareName), type: String},
-        software_version:  {key: %(softwareVersion), type: String},
-        gateway_timestamp: {key: %(gatewayTimestamp), type: Time, converter: DATE_FORMAT},
+        uploader_id:       {key: "uploaderID", type: String},
+        software_name:     {key: "softwareName", type: String},
+        software_version:  {key: "softwareVersion", type: String},
+        gateway_timestamp: {key: "gatewayTimestamp", type: Time, converter: DATE_FORMAT},
       })
     end
 
