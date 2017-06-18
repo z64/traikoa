@@ -112,7 +112,7 @@ module Traikoa
               orbital_period:         {key: "OrbitalPeriod", type: Float64?},
               eccentricity:           {key: "Eccentricity", type: Float64?},
               atmosphere_type:        {key: "AtmosphereType", type: String?},
-              surface_temperature:    {key: "SurfaceTemperature", type: Float64},
+              surface_temperature:    {key: "SurfaceTemperature", type: Float64?},
               tidal_lock:             {key: "TidalLock", type: Bool?},
               periapsis:              {key: "Periapsis", type: Float64?},
               body_name:              {key: "BodyName", type: String},
