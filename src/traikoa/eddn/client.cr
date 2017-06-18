@@ -88,7 +88,6 @@ module Traikoa
         def handle(object : {{payload_type}})
           @on_{{name}}_handlers.try &.each do |handler|
             begin
-              p "About to call #{handler}.."
               handler.call(object)
             rescue ex
               LOGGER.error <<-LOG
