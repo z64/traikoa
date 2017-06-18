@@ -34,12 +34,13 @@ module Traikoa::EDDN
 
         # Localizes a string from `{{name}}.csv`
         def self.localize(string)
-          @@localizations.find { |local| local.id == string }.not_nil!.name
+          @@localizations.find { |local| local.id == string }.try &.name
         end
 
         # Callback for using this localizer in a `JSON.mapping`'s `converter`
         def self.from_json(parser)
-          localize(parser.read_string)
+          string = parser.read_string
+          localize(string) || string
         end
       end
     {% end %}
