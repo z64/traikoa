@@ -4,7 +4,7 @@ module Traikoa
       # Deducts the kind of data object this event is mapped for
       # based on the schema_ref and parses it
       def read_event
-        PAYLOAD[schema_ref].read_event(message)
+        PAYLOAD[schema_ref].read_event(message).not_nil!
       end
     end
 
