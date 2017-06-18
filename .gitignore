@@ -3,3 +3,5 @@
 /bin/
 /.shards/
 shard.lock
+database.yml
+/src/traikoa/database/structure.sql
