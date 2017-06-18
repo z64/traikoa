@@ -1,8 +1,8 @@
 class System20170618001337825 < Jennifer::Migration::Base
   def up
-    create_table(:systems) do |t|
+    create_table(:star_systems) do |t|
       t.integer :id, {:primary => true, :auto_increment => true}
-      t.timestamp :last_updated, {:null => false}
+      t.timestamp :updated_at, {:null => false}
       t.string :name, {:null => false}
       t.field :position, :"float[]", {:unique => true}
       t.string :security, {:null => false}
@@ -18,15 +18,11 @@ class System20170618001337825 < Jennifer::Migration::Base
     end
 
     exec <<-SQL
-      CREATE UNIQUE INDEX system_position_idx ON systems (position);
-      SQL
-
-    exec <<-SQL
-      CREATE UNIQUE INDEX system_name_idx ON systems (name);
+      CREATE UNIQUE INDEX star_system_position_idx ON star_systems (position);
       SQL
   end
 
   def down
-    drop_table(:systems)
+    drop_table(:star_systems)
   end
 end
