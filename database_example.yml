@@ -1,0 +1,15 @@
+---
+defaults : &defaults
+  host: localhost
+  adapter: postgres
+  user: user
+  password: password
+  migration_files_path: ./src/traikoa/database/migrations
+
+development:
+  db: traikoa_develop
+  <<: *defaults
+
+production:
+  db: traikoa_production
+  <<: *defaults
