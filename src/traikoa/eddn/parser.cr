@@ -68,7 +68,7 @@ module Traikoa
         # a bunch of if return guards, and implicitly nil if
         # we don't have a match
         {% for kind in Events %}
-          return {{kind}}.from_json message if event == "{{kind}}"
+          return {{kind.id}}.from_json message if event == {{kind}}
         {% end %}
       end
     end
