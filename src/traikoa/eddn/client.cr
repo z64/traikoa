@@ -114,6 +114,8 @@ module Traikoa
       event shipyard, Shipyard
 
       event outfitting, Outfitting
+
+      event unkown_payload, Nil
     end
   end
 end
