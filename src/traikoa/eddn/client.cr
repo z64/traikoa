@@ -22,13 +22,12 @@ module Traikoa
 
         LOGGER.info "entering main loop"
         loop do
-          data = @relay.receive_string
-          if data
-            deflated = Zlib::Reader.new(
+          if data = @relay.receive_string
+            inflated = Zlib::Reader.new(
               IO::Memory.new(data)
             ).gets_to_end
 
-            packet = parse_message(deflated)
+            packet = parse_message(inflated)
 
             begin
               dispatch packet
