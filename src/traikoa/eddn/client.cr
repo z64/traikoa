@@ -114,7 +114,7 @@ module Traikoa
 
       event outfitting, Outfitting
 
-      event unkown_payload, Nil
+      event unknown_payload, Nil
     end
   end
 end
