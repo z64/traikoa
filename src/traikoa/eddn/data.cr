@@ -141,6 +141,15 @@ module Traikoa
           state:      {key: "FactionState", type: String, converter: Localizer::Factionstate},
           name:       {key: "Name", type: String},
           government: {key: "Government", type: String},
+          pending_states:    {key: "PendingStates", type: Array(FactionState)?},
+          recovering_states: {key: "RecoveringStates", type: Array(FactionState)?},
+        })
+      end
+
+      struct FactionState
+        JSON.mapping({
+          state: {key: "State", type: String},
+          trend: {key: "Trend", type: Int32},
         })
       end
 
