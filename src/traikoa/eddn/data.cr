@@ -105,7 +105,7 @@ module Traikoa
             {% if kind == "Scan" %}
               atmosphere_composition: {key: "AtmosphereComposition", type: Array(AtmosphereComponent)?},
               terraform_state:        {key: "TerraformState", type: String?},
-              mass_em:                {key: "MassEM", type: Float64?},
+              mass:                   {key: "MassEM", type: Float64?},
               planet_class:           {key: "PlanetClass", type: String?},
               surface_pressure:       {key: "SurfacePressure", type: Float64?},
               rotation_period:        {key: "RotationPeriod", type: Float64},
