@@ -6,11 +6,19 @@ module Traikoa
     # Mapping of schema URL to payload type that we can use for checking
     # to perform special handling on each.
     PAYLOAD = {
+      # TODO: Remove after August 9th (2017).
       "http://schemas.elite-markets.net/eddn/blackmarket/1" => Blackmarket,
       "http://schemas.elite-markets.net/eddn/commodity/3"   => Commodity,
       "http://schemas.elite-markets.net/eddn/journal/1"     => Journal,
       "http://schemas.elite-markets.net/eddn/outfitting/2"  => Outfitting,
       "http://schemas.elite-markets.net/eddn/shipyard/2"    => Shipyard,
+
+      # New TCP relay schema URLs. Will not be live until August 9th (2017).
+      "https://eddn.edcd.io/schemas/blackmarket/1" => Blackmarket,
+      "https://eddn.edcd.io/schemas/commodity/3"   => Commodity,
+      "https://eddn.edcd.io/schemas/journal/1"     => Journal,
+      "https://eddn.edcd.io/schemas/outfitting/2"  => Outfitting,
+      "https://eddn.edcd.io/schemas/shipyard/2"    => Shipyard,
     }
 
     # Packet header
