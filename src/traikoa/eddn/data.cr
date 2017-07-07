@@ -144,11 +144,11 @@ module Traikoa
 
       struct Faction
         JSON.mapping({
-          allegiance: {key: "Allegiance", type: String},
-          influence:  {key: "Influence", type: Float64},
-          state:      {key: "FactionState", type: String, converter: Localizer::Factionstate},
-          name:       {key: "Name", type: String},
-          government: {key: "Government", type: String},
+          allegiance:        {key: "Allegiance", type: String},
+          influence:         {key: "Influence", type: Float64},
+          state:             {key: "FactionState", type: String, converter: Localizer::Factionstate},
+          name:              {key: "Name", type: String},
+          government:        {key: "Government", type: String},
           pending_states:    {key: "PendingStates", type: Array(FactionState)?},
           recovering_states: {key: "RecoveringStates", type: Array(FactionState)?},
         })
