@@ -15,6 +15,7 @@ dependencies:
     github: will/crystal-pg
   jennifer:
     github: imdrasil/jennifer.cr
+    branch: master
 
 crystal: 0.20.5
 
