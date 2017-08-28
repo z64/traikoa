@@ -2,17 +2,18 @@ class System20170618001337825 < Jennifer::Migration::Base
   def up
     exec <<-SQL
     CREATE TYPE allegiance AS ENUM (
+      'None',
       'Alliance',
       'Empire',
       'Federation',
       'Independent',
-      'None',
       'Pirate'
     );
     SQL
 
     exec <<-SQL
     CREATE TYPE government AS ENUM (
+      'None',
       'Anarchy',
       'Communism',
       'Confederacy',
@@ -22,7 +23,6 @@ class System20170618001337825 < Jennifer::Migration::Base
       'Dictatorship',
       'Feudal',
       'Imperial',
-      'None',
       'Patronage',
       'Prison Colony',
       'Theocracy',
@@ -50,13 +50,13 @@ class System20170618001337825 < Jennifer::Migration::Base
 
     exec <<-SQL
     CREATE TYPE economy AS ENUM (
+      'None',
       'Agriculture',
       'Colony',
       'Extraction',
       'High Tech',
       'Industrial',
       'Military',
-      'None',
       'Refinery',
       'Service',
       'Terraforming',
@@ -76,15 +76,15 @@ class System20170618001337825 < Jennifer::Migration::Base
 
     exec <<-SQL
     CREATE TABLE star_systems (
-      id BIGSERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       name TEXT NOT NULL,
-      position NUMERIC[] NOT NULL,
+      position float[] NOT NULL,
       security SECURITY NOT NULL,
       economy ECONOMY NOT NULL,
       population BIGINT NOT NULL DEFAULT 0,
-      cc_value NUMERIC NOT NULL DEFAULT 0
+      cc_value BIGINT NOT NULL DEFAULT 0
     );
     SQL
 
