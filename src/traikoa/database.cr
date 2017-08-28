@@ -3,4 +3,5 @@ require "jennifer"
 
 Jennifer::Config.read("database.yml", :development)
 
-require "./database/*"
+require "./database/utils"
+require "./database/system"

@@ -1,13 +1,18 @@
 class StarSystem < Jennifer::Model::Base
-  mapping(
-    id: {type: Int32 | Int64, primary: true},
-    created_at: {type: Time, null: false, default: Time.now},
-    updated_at: {type: Time, null: false, default: Time.now},
-    name: {type: String, null: false},
-    position: {type: Array(Float64), null: false},
-    security: {type: String, null: false},
-    economy: {type: String, null: false},
-    population: {type: Int64, null: true, default: 0i64},
-    cc_value: {type: Int32, null: true, default: 0}
+  mapping({
+    id:         {type: Int32, primary: true},
+    created_at: {type: Time, default: Time.now},
+    updated_at: {type: Time, default: Time.now},
+    name:       {type: String},
+    position:   {type: Array(Float64)},
+    security:   {type: String},
+    economy:    {type: String},
+    population: {type: Int64, default: 0i64},
+    cc_value:   {type: Int32 | Int64, default: 0},
+  })
+
+  Utils.serialize(
+    id, created_at, updated_at, name, position,
+    security, economy, population, cc_value
   )
 end
