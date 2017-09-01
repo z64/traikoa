@@ -163,7 +163,7 @@ module Traikoa
         )
       end
 
-      # Faction state within a `Faction` objectyy
+      # Faction state within a `Faction` object
       struct FactionState
         JSON.mapping(
           state: {key: "State", type: String},
