@@ -16,7 +16,10 @@ module Traikoa::Database
 
     Utils.serialize(
       id, created_at, updated_at, name, position,
-      security, economy, population, cc_value
+      security, economy, population, cc_value,
+      faction_presences
     )
+
+    has_many :faction_presences, FactionPresence, foreign: :star_system_id
   end
 end

@@ -80,7 +80,7 @@ class System20170618001337825 < Jennifer::Migration::Base
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       name TEXT NOT NULL,
-      position float[] NOT NULL,
+      position FLOAT[] NOT NULL,
       security SECURITY NOT NULL,
       economy ECONOMY NOT NULL,
       population BIGINT NOT NULL DEFAULT 0,

@@ -2,7 +2,7 @@ class Faction20170707140809355 < Jennifer::Migration::Base
   def up
     exec <<-SQL
     CREATE TABLE factions (
-      id BIGSERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       name TEXT NOT NULL,
@@ -20,10 +20,10 @@ class Faction20170707140809355 < Jennifer::Migration::Base
 
     exec <<-SQL
     CREATE TABLE faction_presences (
-      id BIGSERIAL PRIMARY KEY,
-      faction_id INTEGER REFERENCES factions(id) ON DELETE CASCADE,
-      star_system_id INTEGER REFERENCES star_systems(id) ON DELETE CASCADE,
-      influence NUMERIC NOT NULL,
+      id SERIAL PRIMARY KEY,
+      faction_id INTEGER REFERENCES factions(id) ON DELETE CASCADE NOT NULL,
+      star_system_id INTEGER REFERENCES star_systems(id) ON DELETE CASCADE NOT NULL,
+      influence FLOAT NOT NULL,
       controlling BOOLEAN NOT NULL
     );
     SQL
@@ -34,15 +34,15 @@ class Faction20170707140809355 < Jennifer::Migration::Base
 
     exec <<-SQL
     CREATE TYPE transition AS ENUM (
-      'pending',
-      'recovering'
+      'Pending',
+      'Recovering'
     );
     SQL
 
     exec <<-SQL
     CREATE TABLE state_transitions (
-      id BIGSERIAL PRIMARY KEY,
-      faction_presence_id INTEGER REFERENCES faction_presences(id) ON DELETE CASCADE,
+      id SERIAL PRIMARY KEY,
+      faction_presence_id INTEGER REFERENCES faction_presences(id) ON DELETE CASCADE NOT NULL,
       transition TRANSITION NOT NULL,
       state FACTION_STATE NOT NULL,
       trend INTEGER NOT NULL,
