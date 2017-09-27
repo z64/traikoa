@@ -121,7 +121,7 @@ module Traikoa
           docked: {key: "Docked", type: Bool?},
           station_type: {key: "StationType", type: String?},
           station_name: {key: "StationName", type: String?},
-          population: {key: "Population", type: UInt64}
+          population: {key: "Population", type: UInt64?}
         )
       end
 
