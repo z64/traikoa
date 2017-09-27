@@ -157,7 +157,8 @@ module Traikoa
           surface_gravity: {key: "SurfaceGravity", type: Float64?},
           stellar_mass: {key: "StellarMass", type: Float64?},
           star_type: {key: "StarType", type: String?},
-          age: {key: "Age_MY", type: Int64?}
+          age: {key: "Age_MY", type: Int64?},
+          luminosity: {key: "Luminosity", type: String?}
         )
       end
 
