@@ -101,7 +101,8 @@ module Traikoa
           station_faction_economy: {key: "StationEconomy", type: String, converter: Localizer::Economy},
           distance_from_star: {key: "DistFromStarLS", type: Float64},
           station_type: {key: "StationType", type: String},
-          station_name: {key: "StationName", type: String}
+          station_name: {key: "StationName", type: String},
+          station_services: {key: "StationServices", type: Array(String)}
         )
       end
 
@@ -119,7 +120,8 @@ module Traikoa
           factions: {key: "Factions", type: Array(Faction)?},
           docked: {key: "Docked", type: Bool?},
           station_type: {key: "StationType", type: String?},
-          station_name: {key: "StationName", type: String?}
+          station_name: {key: "StationName", type: String?},
+          population: {key: "Population", type: UInt64}
         )
       end
 
