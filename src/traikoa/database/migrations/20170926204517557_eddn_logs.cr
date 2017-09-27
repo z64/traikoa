@@ -45,11 +45,11 @@ class EddnLogs20170926204517557 < Jennifer::Migration::Base
 
   def down
     exec <<-SQL
-    DROP TABLE IF EXISTS eddn_logs;
+    DROP TABLE eddn_logs;
     SQL
 
     exec <<-SQL
-    DROP TYPE IF EXISTS eddn_event
+    DROP TYPE eddn_event;
     SQL
   end
 end
