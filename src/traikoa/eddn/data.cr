@@ -73,6 +73,7 @@ module Traikoa
         "Docked",
         "FSDJump",
         "Scan",
+        "Location",
       }
 
       TIME_FORMAT = Time::Format.new("%FT%TZ")
@@ -83,6 +84,7 @@ module Traikoa
         # Extends the base `JSON.mapping` with the common attributs
         macro mapping(**properties)
           JSON.mapping(
+            event: String,
             timestamp: {type: Time, converter: TIME_FORMAT},
             star_system: {key: "StarSystem", type: String},
             star_position: {key: "StarPos", type: Array(Float64)},
@@ -103,8 +105,8 @@ module Traikoa
         )
       end
 
-      # Data object for an EDDN Journal `FSDJump` event
-      struct FSDJump < Common
+      # Data object for an EDDN Journal `FSDJump` and `Location` events
+      struct FSDJumpLocation < Common
         mapping(
           security: {key: "SystemSecurity", type: String, converter: Localizer::Security},
           allegiance: {key: "SystemAllegiance", type: String},
@@ -114,9 +116,16 @@ module Traikoa
           controlling_faction_state: {key: "FactionState", type: String?, converter: Localizer::Factionstate},
           controlling_faction: {key: "SystemFaction", type: String?},
           controlling_faction_government: {key: "SystemGovernment", type: String?, converter: Localizer::Government},
-          factions: {key: "Factions", type: Array(Faction)?}
+          factions: {key: "Factions", type: Array(Faction)?},
+          docked: {key: "Docked", type: Bool?},
+          station_type: {key: "StationType", type: String?},
+          station_name: {key: "StationName", type: String?}
         )
       end
+
+      # Aliases for easy decoding
+      alias FSDJump = FSDJumpLocation
+      alias Location = FSDJumpLocation
 
       # Data object for an EDDN Journal `Scan` event
       struct Scan < Common
@@ -126,7 +135,7 @@ module Traikoa
           mass: {key: "MassEM", type: Float64?},
           planet_class: {key: "PlanetClass", type: String?},
           surface_pressure: {key: "SurfacePressure", type: Float64?},
-          rotation_period: {key: "RotationPeriod", type: Float64},
+          rotation_period: {key: "RotationPeriod", type: Float64?},
           orbital_period: {key: "OrbitalPeriod", type: Float64?},
           eccentricity: {key: "Eccentricity", type: Float64?},
           atmosphere_type: {key: "AtmosphereType", type: String?},
@@ -140,7 +149,7 @@ module Traikoa
           atmosphere: {key: "Atmosphere", type: String?},
           orbital_inclination: {key: "OrbitalInclination", type: Float64?},
           landable: {key: "Landable", type: Bool?},
-          radius: {key: "Radius", type: Float64},
+          radius: {key: "Radius", type: Float64?},
           absolute_magnitude: {key: "AbsoluteMagnitude", type: Float64?},
           distance_from_arrival: {key: "DistanceFromArrivalLS", type: Float64},
           surface_gravity: {key: "SurfaceGravity", type: Float64?},
