@@ -3,38 +3,53 @@ require "./traikoa/*"
 module Traikoa
   client = EDDN::Client.new
 
+  # The general EDDN packet handler. This uses a JSON pull parser to seek
+  # through the packet's message as to not have any dependencies on the
+  # EDDN data objects, and ultimately be more DRY / flexible. None of this
+  # data needs to be validated since it is simply for logging/auditing purposes,
+  # debugging, and to eventually be consumed by other components of the
+  # application.
   client.on_packet do |packet|
     header = packet.header
+    message = packet.message
 
+    # Set up some variable to store what we might get from reading the packet
     event_type = EDDN::PAYLOAD[packet.schema_ref]?
-
+    event_string = nil
     system_name = nil
     station_name = nil
     position = [] of Float64
 
-    # Read the specific `Journal` event type
-    event_string = if event_type == EDDN::Journal
-                     object = packet.read_event.as(EDDN::Journal::Common)
-                     system_name = object.star_system
-                     position = object.star_position
-                     if object.responds_to?(:station_name)
-                       station_name = object.station_name
-                     end
-                     object.event
-                   elsif event_type
-                     event_type.to_s.split("::").last
-                   else
-                     "Unsupported"
-                   end
+    # Set up a PullParser from the inner packet IO
+    parser = JSON::PullParser.new(message)
 
-    if event_type == EDDN::Commodity::Market
-      object = packet.read_event
-      system_name = object.as(EDDN::Commodity::Market).system_name
-      station_name = object.as(EDDN::Commodity::Market).station_name
+    # Scan through the JSON for keys of interest, taking care to use aliases
+    # for the "same property" across different payloads.
+    parser.read_object do |key|
+      case key
+      when "StarSystem" || "systemName"
+        system_name = parser.read_string
+      when "StationName" || "stationName"
+        station_name = parser.read_string
+      when "StarPos"
+        parser.read_array do
+          position << parser.read_float
+        end
+      when "event"
+        event_string = parser.read_string
+      else
+        parser.skip
+      end
     end
 
-    packet.message.rewind
+    message.rewind
 
+    # Basically, if the event wasn't a Journal event, we will not have read
+    # "event" in the above pull parser, and we can just stringify the class
+    # name.
+    event_string ||= event_type.to_s.split("::").last
+
+    # Chuck it in the DB!
     Database::EddnLog.create({
       gateway_timestamp: header.gateway_timestamp,
       type:              event_string,
@@ -45,7 +60,7 @@ module Traikoa
       system_name:       system_name,
       system_position:   position,
       station_name:      station_name,
-      message:           packet.message.to_s,
+      message:           message.to_s,
     })
   end
 
