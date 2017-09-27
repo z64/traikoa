@@ -14,6 +14,10 @@ module Traikoa
       end
     end
 
+    # Exception to raise on unimplemented events
+    class NotImplemented < Exception
+    end
+
     module Journal
       # Pulls out the kind of journal event a message is for
       def self.read_event(message : IO::Memory)
@@ -31,11 +35,9 @@ module Traikoa
         {% for kind in Events %}
           return {{kind.id}}.from_json message if event == {{kind}}
         {% end %}
-      end
-    end
 
-    # Exception to raise on unimplemented events
-    class NotImplemented < Exception
+        raise NotImplemented.new("Unknown Journal event: #{event}")
+      end
     end
 
     # TODO
