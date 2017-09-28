@@ -26,18 +26,27 @@ module Traikoa
     # Scan through the JSON for keys of interest, taking care to use aliases
     # for the "same property" across different payloads.
     parser.read_object do |key|
-      case key
-      when "StarSystem" || "systemName"
-        system_name = parser.read_string
-      when "StationName" || "stationName"
-        station_name = parser.read_string
-      when "StarPos"
-        parser.read_array do
-          position << parser.read_float
+      begin
+        case key
+        when "StarSystem" || "systemName"
+          system_name = parser.read_string
+        when "StationName" || "stationName"
+          station_name = parser.read_string
+        when "StarPos"
+          parser.read_array do
+            position << parser.read_float
+          end
+        when "event"
+          event_string = parser.read_string
+        else
+          parser.skip
         end
-      when "event"
-        event_string = parser.read_string
-      else
+      rescue ex : JSON::ParseException
+        # Corrupt packet, or a parsing bug!
+        # We should still be able to save this in the logs DB, so we'll print
+        # a warning so it can be reviewed later as to why they failed to parse.
+        # TODO: Make this flag the packet apropriately once I implement that
+        EDDN::LOGGER.warn("[#{header.gateway_timestamp}] <#{header.uploader_id}> #{ex.class} while reaading '#{key}': #{ex.message}")
         parser.skip
       end
     end
@@ -48,6 +57,10 @@ module Traikoa
     # "event" in the above pull parser, and we can just stringify the class
     # name.
     event_string ||= event_type.to_s.split("::").last
+
+    # Log the event in STDOUT
+    # TODO: Make this configurable
+    EDDN::LOGGER.info "[#{header.gateway_timestamp}] <#{header.uploader_id}> #{event_string.inspect} (#{system_name.inspect}, #{position.inspect}, #{station_name.inspect})"
 
     # Chuck it in the DB!
     Database::EddnLog.create({
