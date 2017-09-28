@@ -74,6 +74,12 @@ module Traikoa
       private def dispatch(packet : Packet)
         handle(packet)
         handle(packet.read_event)
+      rescue ex : JSON::ParseException
+        LOGGER.error <<-LOG
+          An error occured while decoding packet message: #{ex.message}
+          Packet: #{packet.inspect}
+          Message: #{packet.message.to_s}
+          LOG
       end
 
       # :nodoc:

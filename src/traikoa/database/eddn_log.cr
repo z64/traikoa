@@ -13,7 +13,7 @@ module Traikoa::Database
       system_name:       {type: String, null: true},
       system_position:   {type: Array(Float64), null: true},
       station_name:      {type: String, null: true},
-      message:           String,
+      message:           JSON::Any,
     })
   end
 end

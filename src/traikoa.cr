@@ -73,7 +73,7 @@ module Traikoa
       system_name:       system_name,
       system_position:   position,
       station_name:      station_name,
-      message:           message.to_s,
+      message:           JSON.parse(message.to_s),
     })
   end
 

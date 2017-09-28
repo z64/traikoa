@@ -26,7 +26,7 @@ class EddnLogs20170926204517557 < Jennifer::Migration::Base
       system_name TEXT,
       system_position FLOAT[],
       station_name TEXT,
-      message TEXT NOT NULL
+      message JSONB
     );
     SQL
 
