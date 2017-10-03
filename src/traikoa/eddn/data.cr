@@ -13,8 +13,8 @@ module Traikoa
       "https://eddn.edcd.io/schemas/shipyard/2"    => Shipyard,
     }
 
-    # General Zulu timestamp format
-    TIME_FORMAT = Time::Format.new("%FT%TZ")
+    # General 8601 timestamp format
+    TIME_FORMAT = Time::Format::ISO_8601_DATE_TIME
 
     # Packet header
     struct Header
