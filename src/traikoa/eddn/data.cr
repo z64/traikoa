@@ -57,8 +57,21 @@ module Traikoa
 
       # An individual item on the market board
       struct MarketItem
+        # Converter for `demand_bracket`, because apparently this field can
+        # be an empty string, who knows why.
+        module DemandBracketConverter
+          def self.from_json(parser)
+            if value = parser.read?(UInt16)
+              value
+            else
+              parser.skip
+              0_u16
+            end
+          end
+        end
+
         JSON.mapping(
-          demand_bracket: {key: "demandBracket", type: UInt16},
+          demand_bracket: {key: "demandBracket", type: UInt16, converter: DemandBracketConverter},
           name: String,
           buy_price: {key: "buyPrice", type: UInt64},
           mean_price: {key: "meanPrice", type: UInt64},
