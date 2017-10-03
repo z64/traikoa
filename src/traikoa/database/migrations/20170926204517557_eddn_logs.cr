@@ -6,7 +6,7 @@ class EddnLogs20170926204517557 < Jennifer::Migration::Base
       'FSDJump',
       'Location',
       'Scan',
-      'CommodityMarket',
+      'Commodity',
       'Blackmarket',
       'Shipyard',
       'Outfitting',
