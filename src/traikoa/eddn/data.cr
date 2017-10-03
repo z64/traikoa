@@ -13,8 +13,12 @@ module Traikoa
       "https://eddn.edcd.io/schemas/shipyard/2"    => Shipyard,
     }
 
+    # General Zulu timestamp format
+    TIME_FORMAT = Time::Format.new("%FT%TZ")
+
     # Packet header
     struct Header
+      # EDDN specific header time format
       TIME_FORMAT = Time::Format.new("%FT%T.%L%:z")
 
       JSON.mapping(
@@ -75,8 +79,6 @@ module Traikoa
         "Scan",
         "Location",
       }
-
-      TIME_FORMAT = Time::Format.new("%FT%TZ")
 
       # Common attributes to all `Journal` events.
       # These are enforced as being present on all EDDN payloads.
