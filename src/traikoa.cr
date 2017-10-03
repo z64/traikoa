@@ -28,9 +28,9 @@ module Traikoa
     parser.read_object do |key|
       begin
         case key
-        when "StarSystem" || "systemName"
+        when "StarSystem", "systemName"
           system_name = parser.read_string
-        when "StationName" || "stationName"
+        when "StationName", "stationName"
           station_name = parser.read_string
         when "StarPos"
           parser.read_array do
