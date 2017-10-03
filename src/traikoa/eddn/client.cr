@@ -32,7 +32,7 @@ module Traikoa
             begin
               dispatch packet
             rescue ex : NotImplemented
-              LOGGER.info "Payload not implemented! #{ex}"
+              LOGGER.warn "Payload not implemented! #{ex}"
             end
           end
         end
