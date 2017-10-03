@@ -70,6 +70,17 @@ module Traikoa
       end
     end
 
+    # Outfitting events
+    struct Outfitting
+      JSON.mapping(
+        timestamp: {type: Time, converter: TIME_FORMAT},
+        system_name: {key: "systemName", type: String},
+        station_name: {key: "stationName", type: String},
+        # TODO: Localizer
+        modules: Array(String)
+      )
+    end
+
     # Events pushed to EDDN as parsed from Elite's player journal files
     module Journal
       # Kinds of journal events

@@ -50,7 +50,7 @@ module Traikoa
     # TODO
     struct Outfitting
       def self.read_event(message)
-        raise NotImplemented.new(message.to_s)
+        Outfitting.from_json(message)
       end
     end
 
