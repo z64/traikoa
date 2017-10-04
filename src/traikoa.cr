@@ -15,7 +15,18 @@ module Traikoa
 
     # Set up some variable to store what we might get from reading the packet
     event_type = EDDN::PAYLOAD[packet.schema_ref]?
-    event_string = nil
+
+    # If the schema_ref is an unknown or unsupported schema, event_type will
+    # be nil and we can set the event_string to "Unsupported". Otherwise,
+    # we can stringify the class name. If its a Journal event, or has an
+    # internal "event" key, it will be read and overwrite this later befre
+    # we insert the row.
+    event_string = if event_type
+                     event_type.to_s.split("::").last
+                   else
+                     "Unsupported"
+                   end
+
     system_name = nil
     station_name = nil
     position = [] of Float64
@@ -52,11 +63,6 @@ module Traikoa
     end
 
     message.rewind
-
-    # Basically, if the event wasn't a Journal event, we will not have read
-    # "event" in the above pull parser, and we can just stringify the class
-    # name.
-    event_string ||= event_type.to_s.split("::").last
 
     # Log the event in STDOUT
     # TODO: Make this configurable
