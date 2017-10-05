@@ -57,7 +57,7 @@ module Traikoa
         # We should still be able to save this in the logs DB, so we'll print
         # a warning so it can be reviewed later as to why they failed to parse.
         # TODO: Make this flag the packet apropriately once I implement that
-        EDDN::LOGGER.warn("[#{header.gateway_timestamp}] <#{header.uploader_id}> #{ex.class} while reaading '#{key}': #{ex.message}")
+        EDDN::LOGGER.warn("[#{header.gateway_timestamp}] <#{header.uploader_id}> #{ex.class} while reading '#{key}': #{ex.message}")
         parser.skip
       end
     end
