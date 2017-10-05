@@ -15,5 +15,6 @@ module Traikoa
 
     # Logger for gateway Events
     LOGGER = Logger.new(STDOUT)
+    LOGGER.level = Logger::DEBUG
   end
 end

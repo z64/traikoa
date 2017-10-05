@@ -13,8 +13,12 @@ module Traikoa
       "https://eddn.edcd.io/schemas/shipyard/2"    => Shipyard,
     }
 
+    # General 8601 timestamp format
+    TIME_FORMAT = Time::Format::ISO_8601_DATE_TIME
+
     # Packet header
     struct Header
+      # EDDN specific header time format
       TIME_FORMAT = Time::Format.new("%FT%T.%L%:z")
 
       JSON.mapping(
@@ -53,8 +57,21 @@ module Traikoa
 
       # An individual item on the market board
       struct MarketItem
+        # Converter for `demand_bracket`, because apparently this field can
+        # be an empty string, who knows why.
+        module DemandBracketConverter
+          def self.from_json(parser)
+            if value = parser.read?(UInt16)
+              value
+            else
+              parser.skip
+              0_u16
+            end
+          end
+        end
+
         JSON.mapping(
-          demand_bracket: {key: "demandBracket", type: UInt16},
+          demand_bracket: {key: "demandBracket", type: UInt16, converter: DemandBracketConverter},
           name: String,
           buy_price: {key: "buyPrice", type: UInt64},
           mean_price: {key: "meanPrice", type: UInt64},
@@ -66,6 +83,17 @@ module Traikoa
       end
     end
 
+    # Outfitting events
+    struct Outfitting
+      JSON.mapping(
+        timestamp: {type: Time, converter: TIME_FORMAT},
+        system_name: {key: "systemName", type: String},
+        station_name: {key: "stationName", type: String},
+        # TODO: Localizer
+        modules: Array(String)
+      )
+    end
+
     # Events pushed to EDDN as parsed from Elite's player journal files
     module Journal
       # Kinds of journal events
@@ -73,9 +101,8 @@ module Traikoa
         "Docked",
         "FSDJump",
         "Scan",
+        "Location",
       }
-
-      TIME_FORMAT = Time::Format.new("%FT%TZ")
 
       # Common attributes to all `Journal` events.
       # These are enforced as being present on all EDDN payloads.
@@ -83,6 +110,7 @@ module Traikoa
         # Extends the base `JSON.mapping` with the common attributs
         macro mapping(**properties)
           JSON.mapping(
+            event: String,
             timestamp: {type: Time, converter: TIME_FORMAT},
             star_system: {key: "StarSystem", type: String},
             star_position: {key: "StarPos", type: Array(Float64)},
@@ -99,12 +127,13 @@ module Traikoa
           station_faction_economy: {key: "StationEconomy", type: String, converter: Localizer::Economy},
           distance_from_star: {key: "DistFromStarLS", type: Float64},
           station_type: {key: "StationType", type: String},
-          station_name: {key: "StationName", type: String}
+          station_name: {key: "StationName", type: String},
+          station_services: {key: "StationServices", type: Array(String)}
         )
       end
 
-      # Data object for an EDDN Journal `FSDJump` event
-      struct FSDJump < Common
+      # Data object for an EDDN Journal `FSDJump` and `Location` events
+      struct FSDJumpLocation < Common
         mapping(
           security: {key: "SystemSecurity", type: String, converter: Localizer::Security},
           allegiance: {key: "SystemAllegiance", type: String},
@@ -114,9 +143,17 @@ module Traikoa
           controlling_faction_state: {key: "FactionState", type: String?, converter: Localizer::Factionstate},
           controlling_faction: {key: "SystemFaction", type: String?},
           controlling_faction_government: {key: "SystemGovernment", type: String?, converter: Localizer::Government},
-          factions: {key: "Factions", type: Array(Faction)?}
+          factions: {key: "Factions", type: Array(Faction)?},
+          docked: {key: "Docked", type: Bool?},
+          station_type: {key: "StationType", type: String?},
+          station_name: {key: "StationName", type: String?},
+          population: {key: "Population", type: UInt64?}
         )
       end
+
+      # Aliases for easy decoding
+      alias FSDJump = FSDJumpLocation
+      alias Location = FSDJumpLocation
 
       # Data object for an EDDN Journal `Scan` event
       struct Scan < Common
@@ -126,7 +163,7 @@ module Traikoa
           mass: {key: "MassEM", type: Float64?},
           planet_class: {key: "PlanetClass", type: String?},
           surface_pressure: {key: "SurfacePressure", type: Float64?},
-          rotation_period: {key: "RotationPeriod", type: Float64},
+          rotation_period: {key: "RotationPeriod", type: Float64?},
           orbital_period: {key: "OrbitalPeriod", type: Float64?},
           eccentricity: {key: "Eccentricity", type: Float64?},
           atmosphere_type: {key: "AtmosphereType", type: String?},
@@ -140,13 +177,14 @@ module Traikoa
           atmosphere: {key: "Atmosphere", type: String?},
           orbital_inclination: {key: "OrbitalInclination", type: Float64?},
           landable: {key: "Landable", type: Bool?},
-          radius: {key: "Radius", type: Float64},
+          radius: {key: "Radius", type: Float64?},
           absolute_magnitude: {key: "AbsoluteMagnitude", type: Float64?},
           distance_from_arrival: {key: "DistanceFromArrivalLS", type: Float64},
           surface_gravity: {key: "SurfaceGravity", type: Float64?},
           stellar_mass: {key: "StellarMass", type: Float64?},
           star_type: {key: "StarType", type: String?},
-          age: {key: "Age_MY", type: Int64?}
+          age: {key: "Age_MY", type: Int64?},
+          luminosity: {key: "Luminosity", type: String?}
         )
       end
 

@@ -32,7 +32,7 @@ module Traikoa
             begin
               dispatch packet
             rescue ex : NotImplemented
-              LOGGER.info "Payload not implemented! #{ex}"
+              LOGGER.warn "Payload not implemented! #{ex}"
             end
           end
         end
@@ -74,6 +74,12 @@ module Traikoa
       private def dispatch(packet : Packet)
         handle(packet)
         handle(packet.read_event)
+      rescue ex : JSON::ParseException
+        LOGGER.error <<-LOG
+          An error occured while decoding packet message: #{ex.message}
+          Packet: #{packet.inspect}
+          Message: #{packet.message.to_s}
+          LOG
       end
 
       # :nodoc:
@@ -90,9 +96,12 @@ module Traikoa
               handler.call(object)
             rescue ex
               LOGGER.error <<-LOG
-                An exception occured in a gateway object handler!
-                #{ex}
+                An unhandled exception occured in a gateway object handler!
+                Exception: #{ex}
+                Object: #{object.inspect}
+                #{"Packet message: #{object.message.to_s}" if object.is_a?(Packet)}
                 LOG
+              raise ex
             end
           end
         end
